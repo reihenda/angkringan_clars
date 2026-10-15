@@ -137,8 +137,8 @@ const RECIPES: Record<string, [string, number][]> = {
 
 const FEATURED_IMG: Record<string, string> = {
   "Spesial Coffee Clars": "/img/drinks-trio.png",
-  "Mie Goreng Telur": "/img/mie-goreng.png",
-  "Nasi Goreng Spesial": "/img/nasi-bungkus.png",
+  "Mie Goreng Telur": "/img/mie-goreng-telur.jpg",
+  "Nasi Goreng Spesial": "/img/nasi-goreng.jpg",
 };
 
 // Di Vercel (production) password awal diacak dan dicetak sekali di log build.

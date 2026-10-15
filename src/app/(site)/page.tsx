@@ -80,18 +80,18 @@ export default async function HomePage() {
                 className="tilt ml-auto w-[88%] rotate-2 rounded-[2.5rem] bg-petal object-cover"
               />
               <Image
-                src="/img/sate.png"
-                alt="Aneka sate-satean bakar"
-                width={255}
-                height={150}
+                src="/img/sate.jpg"
+                alt="Sate bakar di atas daun pisang"
+                width={1100}
+                height={733}
                 sizes="(min-width:1024px) 280px, 46vw"
                 className="tilt absolute -bottom-8 left-0 w-[46%] -rotate-3 rounded-3xl border-[6px] border-blush object-cover"
               />
               <Image
-                src="/img/nasi-bungkus.png"
-                alt="Nasi bakar dalam daun pisang"
-                width={250}
-                height={150}
+                src="/img/nasi-goreng.jpg"
+                alt="Nasi goreng dengan kerupuk dan telur"
+                width={1100}
+                height={825}
                 sizes="(min-width:1024px) 240px, 38vw"
                 className="tilt absolute -right-1 -top-6 w-[36%] rotate-6 rounded-3xl border-[6px] border-blush object-cover"
               />
@@ -206,10 +206,10 @@ export default async function HomePage() {
               </p>
             </div>
             <Image
-              src="/img/billiard.png"
-              alt="Meja billiard dengan bola warna-warni"
-              width={270}
-              height={135}
+              src="/img/billiard-bola.jpg"
+              alt="Bola billiard warna-warni di atas meja hijau"
+              width={1100}
+              height={733}
               sizes="(min-width:1024px) 480px, 90vw"
               className="reveal w-full rounded-3xl object-cover"
             />
@@ -231,10 +231,10 @@ export default async function HomePage() {
       <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
         <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
           <Image
-            src="/img/mie-goreng.png"
-            alt="Mie goreng telur mata sapi di piring hitam"
-            width={245}
-            height={125}
+            src="/img/nasi-kucing.jpg"
+            alt="Nasi kucing khas angkringan dengan sate dan tempe orek"
+            width={1100}
+            height={649}
             sizes="(min-width:1024px) 520px, 90vw"
             className="reveal w-full rounded-[2.5rem] object-cover"
           />

@@ -12,12 +12,15 @@ export const metadata: Metadata = {
 };
 
 const PHOTOS: Record<string, { src: string; alt: string; w: number; h: number }[]> = {
-  minuman: [{ src: "/img/drinks-trio.png", alt: "Tiga gelas minuman dingin Clars", w: 330, h: 250 }],
-  makanan: [
-    { src: "/img/mie-goreng.png", alt: "Mie goreng telur mata sapi", w: 245, h: 125 },
-    { src: "/img/nasi-bungkus.png", alt: "Nasi bakar dalam daun pisang", w: 250, h: 150 },
+  minuman: [
+    { src: "/img/drinks-trio.png", alt: "Tiga gelas minuman dingin Clars", w: 330, h: 250 },
+    { src: "/img/kopi-es.jpg", alt: "Segelas es kopi susu", w: 900, h: 900 },
   ],
-  "sate-satean": [{ src: "/img/sate.png", alt: "Aneka sate-satean bakar", w: 255, h: 150 }],
+  makanan: [
+    { src: "/img/mie-goreng-telur.jpg", alt: "Mie goreng dengan telur mata sapi", w: 690, h: 900 },
+    { src: "/img/nasi-goreng.jpg", alt: "Nasi goreng dengan kerupuk dan telur", w: 1100, h: 825 },
+  ],
+  "sate-satean": [{ src: "/img/sate.jpg", alt: "Sate bakar di atas daun pisang", w: 1100, h: 733 }],
 };
 
 export default async function MenuPage() {
@@ -41,7 +44,7 @@ export default async function MenuPage() {
         </div>
         <div className="relative mx-auto w-full max-w-md lg:max-w-none">
           <Image src="/img/drinks-hero.png" alt="Pink milk dan kopi susu Clars" width={290} height={280} priority sizes="(min-width:1024px) 440px, 80vw" className="ml-auto w-[80%] rotate-2 rounded-[2.5rem] bg-petal object-cover" />
-          <Image src="/img/sate.png" alt="Sate-satean" width={255} height={150} sizes="(min-width:1024px) 240px, 40vw" className="absolute -bottom-6 left-0 w-[42%] -rotate-3 rounded-3xl border-[6px] border-blush object-cover" />
+          <Image src="/img/sate.jpg" alt="Sate bakar di atas daun pisang" width={1100} height={733} sizes="(min-width:1024px) 240px, 40vw" className="absolute -bottom-6 left-0 w-[42%] -rotate-3 rounded-3xl border-[6px] border-blush object-cover" />
         </div>
       </header>
 
@@ -69,7 +72,7 @@ export default async function MenuPage() {
               </ul>
               <div className="grid content-start gap-4 sm:grid-cols-2 lg:grid-cols-1">
                 {(PHOTOS[c.slug] ?? []).map((p) => (
-                  <Image key={p.src} src={p.src} alt={p.alt} width={p.w} height={p.h} sizes="(min-width:1024px) 300px, 45vw" className="reveal w-full rounded-3xl object-cover" />
+                  <Image key={p.src} src={p.src} alt={p.alt} width={p.w} height={p.h} sizes="(min-width:1024px) 300px, 45vw" className="reveal aspect-[4/3] w-full rounded-3xl object-cover" />
                 ))}
               </div>
             </div>

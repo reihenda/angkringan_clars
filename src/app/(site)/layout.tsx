@@ -55,7 +55,10 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         <div className="bg-plum px-5 py-4 text-sm text-white/70 sm:px-8">
           <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-2">
             <p>© {new Date().getFullYear()} {s.storeName}</p>
-            <Link href="/login" className="font-semibold text-white/80 hover:text-white">Masuk staf</Link>
+            <span className="flex items-center gap-5">
+              <Link href="/kredit-foto" className="font-semibold text-white/80 hover:text-white">Kredit foto</Link>
+              <Link href="/login" className="font-semibold text-white/80 hover:text-white">Masuk staf</Link>
+            </span>
           </div>
         </div>
       </footer>

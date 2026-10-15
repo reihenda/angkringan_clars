@@ -84,10 +84,10 @@ export default async function TentangPage() {
       <section className="mx-auto max-w-7xl px-5 pb-24 sm:px-8 lg:pb-32">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            { src: "/img/nasi-bungkus.png", alt: "Nasi bakar dalam daun pisang", w: 250, h: 150 },
-            { src: "/img/sate.png", alt: "Sate-satean bakar", w: 255, h: 150 },
-            { src: "/img/billiard.png", alt: "Meja billiard Clars", w: 270, h: 135 },
-            { src: "/img/mie-goreng.png", alt: "Mie goreng telur", w: 245, h: 125 },
+            { src: "/img/nasi-goreng.jpg", alt: "Nasi goreng dengan kerupuk, telur, dan acar", w: 1100, h: 825 },
+            { src: "/img/sate.jpg", alt: "Sate bakar di atas daun pisang", w: 1100, h: 733 },
+            { src: "/img/billiard-bola.jpg", alt: "Bola billiard di atas meja hijau", w: 1100, h: 733 },
+            { src: "/img/nasi-kucing.jpg", alt: "Nasi kucing dengan sate dan tempe orek", w: 1100, h: 649 },
           ].map((p) => (
             <Image key={p.src} src={p.src} alt={p.alt} width={p.w} height={p.h} sizes="(min-width:1024px) 300px, 90vw" className="reveal h-56 w-full rounded-3xl object-cover" />
           ))}
