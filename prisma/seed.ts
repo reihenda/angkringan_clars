@@ -1,8 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { randomBytes } from "node:crypto";
 import { SETTING_DEFAULTS } from "../src/lib/settings";
 
-const db = new PrismaClient();
+export const db = new PrismaClient();
 
 const MENU: Record<string, { group: string; items: [string, number, boolean?][] }> = {
   Minuman: {
@@ -140,7 +141,13 @@ const FEATURED_IMG: Record<string, string> = {
   "Nasi Goreng Spesial": "/img/nasi-bungkus.png",
 };
 
-async function main() {
+// Di Vercel (production) password awal diacak dan dicetak sekali di log build.
+// Lokal memakai password sederhana agar mudah dicoba.
+const isProd = !!process.env.VERCEL || process.env.NODE_ENV === "production";
+const pw = (fallback: string) =>
+  isProd ? randomBytes(9).toString("base64url") : fallback;
+
+export async function seed() {
   // Pengaturan toko
   for (const [key, value] of Object.entries(SETTING_DEFAULTS)) {
     await db.setting.upsert({ where: { key }, update: {}, create: { key, value } });
@@ -148,10 +155,11 @@ async function main() {
 
   // Akun awal (ganti password setelah login pertama lewat Pengaturan)
   const users = [
-    { name: "Owner Clars", username: "owner", password: "owner123", role: "OWNER" },
-    { name: "Kasir 1", username: "kasir", password: "kasir123", role: "CASHIER" },
+    { name: "Owner Clars", username: "owner", password: pw("owner123"), role: "OWNER" },
+    { name: "Kasir 1", username: "kasir", password: pw("kasir123"), role: "CASHIER" },
   ];
   for (const u of users) {
+    if (isProd) console.log(`AKUN AWAL -> username: ${u.username} | password: ${u.password}`);
     await db.user.upsert({
       where: { username: u.username },
       update: {},
@@ -232,4 +240,6 @@ async function main() {
   console.log("Seed selesai.");
 }
 
-main().finally(() => db.$disconnect());
+if (process.argv[1]?.endsWith("seed.ts")) {
+  seed().finally(() => db.$disconnect());
+}
