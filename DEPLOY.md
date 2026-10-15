@@ -9,7 +9,7 @@ khusus SQLite, jadi pindahnya cuma ganti provider.
 ## Cara paling mudah (dashboard Vercel)
 
 1. Daftar di vercel.com dengan akun GitHub, lalu **Add New → Project** dan import repo ini.
-2. Di Environment Variables isi `SESSION_SECRET` (hasil `openssl rand -base64 32`). Deploy pertama
+2. (Opsional) tambahkan `SESSION_SECRET` di Environment Variables. Kalau kosong, kunci sesi diturunkan dari DATABASE_URL.
    akan gagal karena database belum ada, itu normal.
 3. Buka tab **Storage → Create Database → Neon**. Pilih region **Singapore**, paket **Free**, lalu
    hubungkan ke project. `DATABASE_URL` dan `DATABASE_URL_UNPOOLED` terisi otomatis.
