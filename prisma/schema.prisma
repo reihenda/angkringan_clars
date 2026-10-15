@@ -1,0 +1,173 @@
+// Database lokal = SQLite. Untuk production (Vercel + Neon Postgres) cukup ganti
+// provider ke "postgresql", isi DATABASE_URL, lalu jalankan `npx prisma migrate deploy`.
+// Lihat DEPLOY.md. Semua uang disimpan sebagai Int (rupiah) dan status sebagai String
+// supaya schema kompatibel dengan SQLite maupun Postgres.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  username     String   @unique
+  passwordHash String
+  role         String   @default("CASHIER") // OWNER | CASHIER
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  orders        Order[]
+  stockMovement StockMovement[]
+}
+
+model Category {
+  id        String     @id @default(cuid())
+  name      String
+  slug      String     @unique
+  group     String // MINUMAN | MAKANAN | SATE
+  sortOrder Int        @default(0)
+  items     MenuItem[]
+}
+
+model MenuItem {
+  id          String   @id @default(cuid())
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+  name        String
+  price       Int
+  description String?
+  imageUrl    String?
+  isAvailable Boolean  @default(true)
+  isFavorite  Boolean  @default(false)
+  sortOrder   Int      @default(0)
+
+  recipe     RecipeItem[]
+  orderItems OrderItem[]
+}
+
+model Supplier {
+  id          String       @id @default(cuid())
+  name        String
+  phone       String?
+  ingredients Ingredient[]
+}
+
+model Ingredient {
+  id         String    @id @default(cuid())
+  name       String
+  unit       String // pcs, kg, gr, liter, bks
+  stock      Float     @default(0)
+  minStock   Float     @default(0)
+  cost       Int       @default(0) // harga beli per unit
+  supplierId String?
+  supplier   Supplier? @relation(fields: [supplierId], references: [id])
+  active     Boolean   @default(true)
+
+  recipe    RecipeItem[]
+  movements StockMovement[]
+}
+
+model RecipeItem {
+  id           String     @id @default(cuid())
+  menuItemId   String
+  menuItem     MenuItem   @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+  ingredientId String
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+  qty          Float
+
+  @@unique([menuItemId, ingredientId])
+}
+
+model StockMovement {
+  id           String     @id @default(cuid())
+  ingredientId String
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+  type         String // IN | SALE | ADJUST | WASTE | VOID
+  qty          Float // bertanda: + masuk, - keluar
+  balance      Float // stok setelah pergerakan
+  note         String?
+  refOrderId   String?
+  userId       String?
+  user         User?      @relation(fields: [userId], references: [id])
+  createdAt    DateTime   @default(now())
+
+  @@index([ingredientId, createdAt])
+}
+
+model BilliardTable {
+  id         String            @id @default(cuid())
+  name       String
+  hourlyRate Int               @default(25000)
+  active     Boolean           @default(true)
+  sortOrder  Int               @default(0)
+  sessions   BilliardSession[]
+}
+
+model BilliardSession {
+  id        String        @id @default(cuid())
+  tableId   String
+  table     BilliardTable @relation(fields: [tableId], references: [id])
+  orderId   String        @unique
+  order     Order         @relation(fields: [orderId], references: [id])
+  rate      Int // tarif per jam saat sesi dimulai
+  startedAt DateTime      @default(now())
+  endedAt   DateTime?
+  minutes   Int           @default(0) // menit tertagih setelah dibulatkan
+  amount    Int           @default(0)
+}
+
+model Order {
+  id            String   @id @default(cuid())
+  number        Int      @default(0) // nomor urut, diisi di kode
+  type          String // DINE_IN | TAKEAWAY | BILLIARD
+  status        String   @default("OPEN") // OPEN | PAID | VOID
+  customerName  String?
+  note          String?
+  fbSubtotal    Int      @default(0)
+  billiardTotal Int      @default(0)
+  discount      Int      @default(0)
+  promoDiscount Int      @default(0) // potongan gratis 1 jam billiard
+  total         Int      @default(0)
+  cashierId     String?
+  cashier       User?    @relation(fields: [cashierId], references: [id])
+  createdAt     DateTime @default(now())
+  paidAt        DateTime?
+
+  items    OrderItem[]
+  payments Payment[]
+  session  BilliardSession?
+
+  @@index([status, createdAt])
+}
+
+model OrderItem {
+  id         String   @id @default(cuid())
+  orderId    String
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  menuItemId String?
+  menuItem   MenuItem? @relation(fields: [menuItemId], references: [id])
+  name       String
+  price      Int
+  qty        Int
+  note       String?
+}
+
+model Payment {
+  id       String   @id @default(cuid())
+  orderId  String
+  order    Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  method   String // CASH | QRIS | TRANSFER
+  amount   Int // nominal yang dialokasikan ke tagihan
+  tendered Int? // uang diterima (tunai)
+  createdAt DateTime @default(now())
+}
+
+model Setting {
+  key   String @id
+  value String
+}

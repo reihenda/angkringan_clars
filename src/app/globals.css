@@ -1,0 +1,208 @@
+@import "tailwindcss";
+
+:root {
+  --blush: #fff5f9;
+  --petal: #ffe4ef;
+  --rose: #f8b8d2;
+  --pink: #d81b6b;
+  --pink-bright: #f0287f;
+  --pink-deep: #b30f55;
+  --ink: #2a1220;
+  --muted: #6f5563;
+  --plum: #1d0b16;
+  --felt: #16706b;
+  --ok: #138a5b;
+  --warn: #c77700;
+}
+
+@theme inline {
+  --color-blush: var(--blush);
+  --color-petal: var(--petal);
+  --color-rose: var(--rose);
+  --color-pink: var(--pink);
+  --color-pink-bright: var(--pink-bright);
+  --color-pink-deep: var(--pink-deep);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-plum: var(--plum);
+  --color-felt: var(--felt);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-script: var(--font-script), "Brush Script MT", cursive;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--blush);
+  color: var(--ink);
+  font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--pink);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 3px solid var(--pink);
+  outline-offset: 2px;
+}
+
+/* Judul bergaya kuas, sesuai poster menu */
+.script {
+  font-family: var(--font-script), cursive;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Label pita pink ala poster ("Minuman", "Makanan") */
+.brush {
+  display: inline-block;
+  background: var(--pink);
+  color: #fff;
+  padding: 0.1em 0.9em 0.18em 0.7em;
+  transform: skew(-8deg) rotate(-1.5deg);
+  border-radius: 6px 22px 8px 26px;
+}
+.brush > span {
+  display: inline-block;
+  transform: skew(8deg);
+}
+
+/* Baris menu dengan titik-titik penuntun, sama seperti di poster */
+.leader {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.leader::after {
+  content: "";
+  order: 2;
+  flex: 1;
+  border-bottom: 2px dotted color-mix(in srgb, var(--ink) 28%, transparent);
+  transform: translateY(-0.2em);
+}
+.leader > :first-child {
+  order: 1;
+}
+.leader > :last-child {
+  order: 3;
+}
+
+.neon {
+  text-shadow:
+    0 0 0.35em color-mix(in srgb, var(--pink) 55%, transparent),
+    0 0 1.1em color-mix(in srgb, var(--pink) 35%, transparent);
+}
+
+/* Entrance helper */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rise {
+  animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--d, 0) * 80ms);
+}
+
+@keyframes drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: drift 38s linear infinite;
+  width: max-content;
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.8);
+  }
+}
+.live-dot {
+  animation: pulse-dot 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .rise,
+  .marquee-track,
+  .live-dot {
+    animation: none !important;
+  }
+}
+
+/* Hindari angka melompat di timer dan harga */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Cetak struk: hanya area struk yang tampil */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #receipt,
+  #receipt * {
+    visibility: visible;
+  }
+  #receipt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 58mm;
+    color: #000;
+    background: #fff;
+  }
+}
+
+/* Muncul saat masuk layar. Tanpa dukungan browser, konten tetap tampil biasa. */
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 40%;
+  }
+  .reveal-d1 {
+    animation-range: entry 6% entry 46%;
+  }
+  .reveal-d2 {
+    animation-range: entry 12% entry 52%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    animation: none !important;
+  }
+}
+
+.tilt {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.tilt:hover {
+  transform: rotate(0deg) scale(1.03) !important;
+}
