@@ -15,8 +15,8 @@ khusus SQLite, jadi pindahnya cuma ganti provider.
    hubungkan ke project. `DATABASE_URL` dan `DATABASE_URL_UNPOOLED` terisi otomatis.
 4. **Settings → Functions → Region: Singapore (sin1)**.
 5. **Deployments → Redeploy.** Build menjalankan `prisma migrate deploy` (membuat tabel) lalu `next build`.
-6. Isi data awal sekali saja dari komputer: salin `DATABASE_URL_UNPOOLED` dari Vercel (Settings →
-   Environment Variables) ke `.env` lokal, lalu jalankan `npm run db:seed`.
+6. Data awal (menu, meja, akun) terisi otomatis saat build pertama, hanya jika database masih kosong.
+   Password awal owner dan kasir diacak dan dicetak sekali di Build Logs (cari teks "AKUN AWAL").
 7. Buka website, masuk lewat `/login`, dan **ganti password** akun awal.
 
 ## Catatan
