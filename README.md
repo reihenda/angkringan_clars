@@ -9,13 +9,14 @@ Website customer + sistem kasir dan stok dalam satu project Next.js.
 
 ```bash
 npm install
-npx prisma migrate dev     # buat database SQLite lokal (prisma/dev.db)
+cp .env.example .env       # isi DATABASE_URL (Neon, branch dev) dan SESSION_SECRET
+npx prisma migrate deploy  # buat tabel di database
 npm run db:seed            # isi menu Clars, bahan, resep, meja, dan akun awal
 npm run dev                # http://localhost:3000
 ```
 
 Akun awal ada di `prisma/seed.ts` (owner dan kasir). **Ganti password setelah login pertama**
-(menu Password di sidebar atau Pengaturan → Akun). Reset database: `npm run db:reset && npm run db:seed`.
+(menu Password di sidebar atau Pengaturan → Akun). Database memakai PostgreSQL (Neon).
 
 ## Fitur
 

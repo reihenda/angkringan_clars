@@ -1,14 +1,13 @@
-// Database lokal = SQLite. Untuk production (Vercel + Neon Postgres) cukup ganti
-// provider ke "postgresql", isi DATABASE_URL, lalu jalankan `npx prisma migrate deploy`.
-// Lihat DEPLOY.md. Semua uang disimpan sebagai Int (rupiah) dan status sebagai String
-// supaya schema kompatibel dengan SQLite maupun Postgres.
+// Database: PostgreSQL (Neon). Uang disimpan sebagai Int (rupiah), status sebagai String.
+// Lokal maupun production sama-sama memakai Postgres, jadi gunakan database Neon terpisah
+// (branch "dev") untuk pengembangan. Lihat DEPLOY.md.
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
